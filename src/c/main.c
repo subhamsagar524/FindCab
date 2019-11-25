@@ -2,9 +2,11 @@
 #include<string.h>
 #define FILE_NAME "input.txt"
 #define MAX_LINE 125
+#define MAX_DATA 4
 
 int checkFile();
 char* getdatabyline(int lineno);
+int intconvert(char *num);
 
 struct driver
 {
@@ -20,16 +22,52 @@ int main (void)
     
     int lat, lon;   //Input Variables
     static int n;	//Processing Variables
+    int i, a, j, cnt;
 
     //Check the file and assign the number drivers registered
     n = checkFile();
+    struct driver data[n];
     printf("\nWe are having %d drivers with us.\n", n);
     
     //Fetch the raw data from the file
     char raw[n][MAX_LINE];
-    for (int i = 0; i <= n; i ++)
-	strcpy(raw[i], getdatabyline(i)); 
+    for (i = 0; i <= n; i++)
+	strcpy(raw[i], getdatabyline(i));
+    for (i = 1; i <=n; i++)
+        printf("%s", raw[i]);
     
+    //Store the data from the array to the driver data type
+    char str[MAX_LINE];
+    char splitStrings[MAX_DATA][MAX_LINE];
+    for (a = 1; a <= n; a++)
+    {
+	strcpy(str, raw[a]);
+
+	j = 0; cnt = 0;
+	for (i = 0; i <= (strlen(str)); i++)
+	{
+	    //If space or NULL is found, assign NULL to splitStrings
+	    if (str[i] == ' ' || str[i] == '\0')
+	    {
+	        splitStrings[cnt][j] = '\0';
+		cnt++;	//for next word
+		j = 0;	//for next word, init index 0
+	    }
+	    else
+	    {
+	        splitStrings[cnt][j] = str[i];
+		j++;
+	    }
+	}
+	strcpy(data[a-1].id, splitStrings[0]);
+	strcpy(data[a-1].name, splitStrings[3]);
+	data[a-1].lat = intconvert(splitStrings[1]);
+	data[a-1].lon = intconvert(splitStrings[2]);
+    }
+
+    //Display the data
+    for (i = 0; i < n; i++)
+    	printf("\n%s %s %d %d", data[i].id, data[i].name, data[i].lat, data[i].lon);
     //Prompt user for the location
     printf("Enter your location(lat lon) : ");
     scanf("%d %d", &lat, &lon); //Get location
@@ -82,4 +120,13 @@ char* getdatabyline(int lineno)
 
     fclose(fp);	//Close the file
     return c;
+}
+
+int intconvert(char *num)
+{
+    int result, i;
+    result = 0;
+    for (i = 0; num[i] != '\0'; i++)
+        result = (result * 10) + (num[i] - 48);
+    return result;
 }
