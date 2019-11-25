@@ -133,4 +133,4 @@ int intconvert(char *num)
     return result;
 }
 //Programmed by Subham Sagar Paira https://www.github.com/subhamsagar524/
-//Source : FIndCab https://www.github.com/subhamsagar524/FindCab
+//Source : FindCab https://www.github.com/subhamsagar524/FindCab
