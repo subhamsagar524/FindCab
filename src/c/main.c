@@ -27,7 +27,7 @@ int main (void)
     static int n;	//Processing Variables
     int i, a, j, cnt;
 
-    //Check the file and assign the number drivers registered
+    //Check the file and assign the number of drivers registered
     n = checkFile();
     struct driver data[n];
     printf("\nWe are having %d drivers with us.\n", n);
@@ -36,8 +36,6 @@ int main (void)
     char raw[n][MAX_LINE];
     for (i = 0; i <= n; i++)
 	strcpy(raw[i], getdatabyline(i));
-    for (i = 1; i <=n; i++)
-        printf("%s", raw[i]);
     
     //Store the data from the array to the driver data type
     char str[MAX_LINE];
@@ -68,14 +66,10 @@ int main (void)
 	data[a-1].lon = intconvert(splitStrings[2]);
     }
 
-    //Display the data
-    for (i = 0; i < n; i++)
-    	printf("\n%s %s %d %d", data[i].id, data[i].name, data[i].lat, data[i].lon);
     //Prompt user for the location
     printf("Enter your location(lat lon) : ");
     scanf("%d %d", &lat, &lon); //Get location
-    
-    
+        
     return 0;
 }
 
