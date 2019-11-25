@@ -3,6 +3,9 @@
 #define FILE_NAME "input.txt"
 #define MAX_LINE 125
 #define MAX_DATA 4
+#define TOINT 48
+#define MAX_ID 20
+#define MAX_NAME 30
 
 int checkFile();
 char* getdatabyline(int lineno);
@@ -10,8 +13,8 @@ int intconvert(char *num);
 
 struct driver
 {
-    char id[20];
-    char name[30];
+    char id[MAX_ID];
+    char name[MAX_NAME];
     int lat;
     int lon;
 };
@@ -127,6 +130,6 @@ int intconvert(char *num)
     int result, i;
     result = 0;
     for (i = 0; num[i] != '\0'; i++)
-        result = (result * 10) + (num[i] - 48);
+        result = (result * 10) + (num[i] - TOINT);
     return result;
 }
