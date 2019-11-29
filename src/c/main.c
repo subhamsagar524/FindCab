@@ -1,16 +1,22 @@
 #include<stdio.h>    //Used for printf, scanf, getc, fgets, FILE, EOF
 #include<string.h>   //Used for strcpy, strlen
+#include<math.h>     //Used for acos, cos, sin, fabs
 #define FILE_NAME "input.txt"
 #define MAX_LINE 125
 #define MAX_DATA 4
 #define TOINT 48
 #define MAX_ID 20
 #define MAX_NAME 30
+#define PI 3.1428571429
+#define EARTH_RADIUS 6378.1
+#define TARGET_AREA 10
 
 //Function Prototypes Decalarations
 int checkFile();
 char* getdatabyline(int lineno);
 int intconvert(char *num);
+double toradians(int degree);
+int getDistance(double lat1, double lon1, double lat2, double lon2);
 
 //Defining the driver data-type
 struct driver
@@ -28,7 +34,7 @@ int main (void)
     
     int lat, lon;   //Input Variables
     static int n;	//Processing Variables
-    int i, a, j, cnt;	//Processing Variables
+    int i, a, j, cnt, flag;	//Processing Variables
 
     //Check the file and assign the number of drivers registered
     n = checkFile();
@@ -74,7 +80,21 @@ int main (void)
     //Prompt user for the location
     printf("Enter your location(lat lon) : ");
     scanf("%d %d", &lat, &lon); //Get location
-        
+
+    //Check and Display the driver in a radius of 10km
+    flag = 0;
+    for (i = 0; i < n; i++)
+    {
+        if ((int)getDistance(toradians(lat), toradians(lon), toradians(data[i].lat), toradians(data[i].lon)) < TARGET_AREA)
+	{
+	    printf("\n\n Name: %s ID: %s", data[i].name, data[i].id);
+	    flag = 1;
+	}
+    }
+    if (flag == 0)
+        printf("\nWe are sorry, no cabs are around you :(:(:(\n");
+    printf("\nYou are having these drivers around you :):):)\n");
+
     return 0;
 }
 
@@ -131,6 +151,21 @@ int intconvert(char *num)
     for (i = 0; num[i] != '\0'; i++)
         result = (result * 10) + (num[i] - TOINT);    //The ASCII value of digit starts from 48 Ex: "3" -> (int)51
     return result;
+}
+
+double toradians(int degree)
+{
+    double result;
+    result = degree * ((double)PI/180);
+    return result;
+}
+
+int getDistance(double lat1, double lon1, double lat2, double lon2)
+{
+    double angle, distance;
+    angle = acos(sin(lon1)*sin(lon2) + cos(lon1)*cos(lon2)*cos(fabs(lat1-lat2)));
+    distance = angle * EARTH_RADIUS;
+    return distance;
 }
 //Programmed by Subham Sagar Paira https://www.github.com/subhamsagar524/
 //Source : FindCab https://www.github.com/subhamsagar524/FindCab
