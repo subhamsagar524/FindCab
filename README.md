@@ -1,5 +1,5 @@
 # FindCab-Finding Nearby Cabs 
-- Design and implement a project as instructed below: 
+- Design and implement a assignment as instructed below: 
 -    Create an input file which contains user_id, latitude, longitude, and name (cab driver) of the cabs. 
 -    Obtain latitude and longitude of each cab along with user-id and name of the driver from the input file. 
 -    Convert latitude and longitude of both the user and the cab present in degrees to radians. 
